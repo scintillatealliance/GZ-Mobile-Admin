@@ -7,7 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 const VoterDataForm = () => {
     const { register, handleSubmit, formState: { errors }, watch } = useForm();
-    const onSubmit = (data) => console.log(data);
   
     const state = watch("state");
     const district = watch("district");
@@ -59,9 +58,9 @@ const VoterDataForm = () => {
   });
   
   
-    const updateLatLong = useMutation({
-      mutationFn: (userData) => {
-        return voterData(ac,booth,userData);
+    const updateVoter = useMutation({
+      mutationFn: (file) => {
+        return voterData(ac,booth,file);
       },
       onError: (error) => {
         // An error happened!
@@ -80,6 +79,11 @@ const VoterDataForm = () => {
   
       }
     });
+
+    const onSubmit = (data) => {
+        const file = data.file[0]; // Access the first file from the FileList
+        updateVoter.mutateAsync({ talukaId: ac, boothId:booth, file });
+    };
 
   return (
     <div className='w-full h-full flex flex-col justify-start items-start'>
@@ -121,7 +125,7 @@ const VoterDataForm = () => {
                    <select {...register("booth", { required: true })}>
                        <option value="">Select booth</option>
                        {boothList && boothList.map(booth => (
-                            <option key={booth._id} value={booth._id}>{booth.name}</option>
+                            <option key={booth._id} value={booth._id}>{`${booth?.booth_serial_number} - ${booth?.name}`}</option>
                         ))}
                        {/* Add options for AC */}
                    </select>
@@ -129,8 +133,8 @@ const VoterDataForm = () => {
                </div>
                <div className='w-full flex flex-col gap-2'>
                    <label className='text-black font-medium text-md'>Voter Data File</label>
-                   <input type="file" accept=".pdf,.doc,.docx" {...register("fileInput", { required: true })} />
-                   {errors.fileInput && <span className="text-red-500">File is required</span>}
+                   <input type="file" accept=".csv,.xlsx" {...register("file", { required: true })} />
+                   {errors.file && <span className="text-red-500">File is required</span>}
                </div>
               
                <button type='submit' className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>

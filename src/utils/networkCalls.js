@@ -46,36 +46,44 @@ export const getDistrict = async (stateId) => {
     }
   };
 
-  export const boothLatLong = async (talukaId,File) => {
+  export const boothLatLong = async (talukaId,file) => {
     try {
-        const response = await api.post(`import-booth-data/csv/${talukaId}`,{file:File});
+        const response = await api.post(`import-booth-data/csv/${talukaId}`,{file:file?.file},{
+          headers: {'Content-Type': 'multipart/form-data'}
+        });
         return response.data;
     } catch (error) {
       throw error;
     }
   };
 
-  export const boothNames = async (talukaId,File) => {
+  export const boothNames = async (talukaId,file) => {
     try {
-        const response = await api.post(`/import-booth-name-data/${talukaId}`,{file:File});
+        const response = await api.post(`/import-booth-name-data/${talukaId}`,{file:file?.file},{
+          headers: {'Content-Type': 'multipart/form-data'}
+        });
         return response.data;
     } catch (error) {
       throw error;
     }
   };
 
-  export const boothAddress = async (talukaId,File) => {
+  export const boothAddress = async (talukaId,file) => {
     try {
-        const response = await api.get(`/update-booth-data/address/${talukaId}`,{file:File});
+        const response = await api.post(`/update-booth-data/address/${talukaId}`,{file:file?.file},{
+          headers: {'Content-Type': 'multipart/form-data'}
+        });
         return response.data;
     } catch (error) {
       throw error;
     }
   };
 
-  export const voterData = async (talukaId,boothId,File) => {
+  export const voterData = async (talukaId,boothId,file) => {
     try {
-        const response = await api.post(`/import/voterdata/${talukaId}/${boothId}`,{file:File});
+        const response = await api.post(`/import/voterdata/${talukaId}/${boothId}`,{file:file?.file},{
+          headers: {'Content-Type': 'multipart/form-data'}
+        });
         return response.data;
     } catch (error) {
       throw error;

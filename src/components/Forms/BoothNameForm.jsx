@@ -7,7 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 const BoothNameForm = () => {
     const { register, handleSubmit, formState: { errors }, watch } = useForm();
-    const onSubmit = (data) => console.log(data);
 
     const state = watch("state");
     const district = watch("district");
@@ -48,8 +47,8 @@ const BoothNameForm = () => {
 
 
     const updateBoothName = useMutation({
-        mutationFn: (userData) => {
-            return boothNames(ac, userData);
+        mutationFn: (file) => {
+            return boothNames(ac, file);
         },
         onError: (error) => {
             // An error happened!
@@ -68,6 +67,11 @@ const BoothNameForm = () => {
 
         }
     });
+
+    const onSubmit = (data) => {
+        const file = data.file[0]; // Access the first file from the FileList
+        updateBoothName.mutateAsync({ talukaId: ac, file });
+    };
 
 
     return (
@@ -107,8 +111,8 @@ const BoothNameForm = () => {
                 </div>
                 <div className='w-full flex flex-col gap-2'>
                     <label className='text-black font-medium text-md'>Booth Name File</label>
-                    <input type="file" accept=".pdf,.doc,.docx" {...register("fileInput", { required: true })} />
-                    {errors.fileInput && <span className="text-red-500">File is required</span>}
+                    <input type="file" accept=".csv,.xlsx" {...register("file", { required: true })} />
+                    {errors.file && <span className="text-red-500">File is required</span>}
                 </div>
 
                 <button type='submit' className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>

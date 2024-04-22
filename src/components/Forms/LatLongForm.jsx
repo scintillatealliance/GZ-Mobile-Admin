@@ -7,7 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 const LatLongForm = () => {
     const { register, handleSubmit, formState: { errors }, watch } = useForm();
-  const onSubmit = (data) => console.log(data);
 
   const state = watch("state");
   const district = watch("district");
@@ -47,8 +46,8 @@ const {
 });
 
   const updateLatLong = useMutation({
-    mutationFn: (userData) => {
-      return boothLatLong(ac,userData);
+    mutationFn: (file) => {
+      return boothLatLong(ac, file);
     },
     onError: (error) => {
       // An error happened!
@@ -67,6 +66,11 @@ const {
 
     }
   });
+
+  const onSubmit = (data) => {
+    const file = data.file[0]; // Access the first file from the FileList
+  updateLatLong.mutateAsync({ talukaId: ac, file }); // Pass the talukaId and file separately
+  };
 
 
 
@@ -106,8 +110,8 @@ const {
                 </div>
                 <div className='w-full flex flex-col gap-2'>
                     <label className='text-black font-medium text-md'>Lat Long File</label>
-                    <input type="file" accept=".pdf,.doc,.docx" {...register("fileInput", { required: true })} />
-                    {errors.fileInput && <span className="text-red-500">File is required</span>}
+                    <input type="file" accept=".csv,.xlsx" {...register("file", { required: true })} />
+                    {errors.file && <span className="text-red-500">File is required</span>}
                 </div>
                 <button type='submit' className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
             </form>
