@@ -20,7 +20,7 @@ const VoterDataForm = () => {
       refetch: refetchState,
   } = useQuery({
       queryKey: ["state"],
-      queryFn: getState(),
+      queryFn: getState,
   });
   
   const {
@@ -87,7 +87,7 @@ const VoterDataForm = () => {
 
   return (
     <div className='w-full h-full flex flex-col justify-start items-start'>
-        <ToastContainer position="top-right" autoClose={5000} />
+        <ToastContainer position="top-right" autoClose={1000} />
     <form onSubmit={handleSubmit(onSubmit)} className='w-full flex flex-col justify-center items-center p-4 rounded-lg mt-4 gap-4'>
               
     <div className='w-full flex flex-col gap-2'>

@@ -20,8 +20,9 @@ const CreateUserPage = () => {
         refetch: refetchState,
     } = useQuery({
         queryKey: ["state"],
-        queryFn: getState(),
+        queryFn: getState,
     });
+    console.log(stateList,"list");
 
     const {
         isLoading: isLoadingDistrict,
@@ -70,14 +71,14 @@ const CreateUserPage = () => {
 
       const onSubmit = (data) => {
         updateUser.mutateAsync({
-            ...data,mobile:"",booth:"Select All"
+            ...data,booth:"Select All"
         });
       }
 
     return (
         <div className='w-full h-full flex flex-col justify-start items-center'>
             <h1 className='text-black font-bold text-center text-xl tracking-wide'>Create New User</h1>
-            <ToastContainer position="top-right" autoClose={5000} />
+            <ToastContainer position="top-right" autoClose={1000} />
             <form onSubmit={handleSubmit(onSubmit)} className='w-1/2 flex flex-col justify-center items-center border-2 border-blue-500 p-4 rounded-lg mt-4 gap-3'>
                 <div className='w-full flex flex-col gap-2'>
                     <label className='text-black font-medium text-md'>Name</label>
