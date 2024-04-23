@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { login } from "../utils/networkCalls";
 import { LoaderCircle } from "lucide-react";
 import { ToastContainer, toast } from "react-toastify";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../App.css";
 
 function Login() {

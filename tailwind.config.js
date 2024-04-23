@@ -4,6 +4,7 @@ export default {
     "./index.html",
     "./src/App.jsx",
     "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{html,js}",
   ],
   theme: {
     container: {
