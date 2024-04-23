@@ -1,5 +1,27 @@
 import api from "../utils/axiosInstance";
 
+
+
+export const validAuth = async (token) => {
+  try {
+    const response = await api.post('/checkToken', {token:token});
+      return response.data;
+  } catch (error) {
+    console.log(error,"success");
+    throw error;
+  }
+};
+
+export const login = async (username, password) => {
+  try {
+      const response = await api.post('/auth/login-with-email', { email:username, password });
+      return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 export const getState = async () => {
   try {
       const response = await api.get('/dropdown/states');
